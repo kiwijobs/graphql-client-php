@@ -1,5 +1,5 @@
 {
-  "name": "goltzchristian/graphql-client-php",
+  "name": "absolvent/graphql-client-php",
   "description": "A graphql client for php.",
   "type": "library",
   "keywords": [
