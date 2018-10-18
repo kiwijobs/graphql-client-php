@@ -73,7 +73,7 @@ abstract class Client
 
         foreach ($params as $key => $value) {
             if (is_string($key)) {
-                $result .= $key . ' : ';
+                $result .= $key . ':';
             }
             if (is_array($value)) {
                 if ($this->hasStringKeys($value)) {
@@ -87,7 +87,6 @@ abstract class Client
             } else {
                 $result .= sprintf('%s ', json_encode($value));
             }
-
         }
 
         return $result;
@@ -110,17 +109,32 @@ abstract class Client
         if ($query instanceof Query) {
             $paramString = '(' . $this->getParamString($query->getParams()) . ')';
         }
-        $queryString = sprintf('%s%s %s', $query->getName(), $paramString, $fieldString);
 
+        $queryString = sprintf('%s%s %s', $query->getName(), $paramString, $fieldString);
 
         return $queryString;
 
     }
 
+    private function getFileMapString(array $multipart)
+    {
+        $fileString = '';
+        $fileString .= '{';
+        foreach($multipart as $key => $mf)
+        {
+            $fileString .= sprintf('%s', "\"$key\":[\"variables.$key\"]");
+        }
+        $fileString .= '}';
+
+        $fileMapString = sprintf('%s', $fileString);
+
+        return $fileMapString;
+    }
+
     public function executeQuery(array $data, array $multipart = null)
     {
         if (is_array($multipart)) {
-            $data = array_merge(['operations' => json_encode($data)], $multipart);
+            $data = array_merge(['operations' => json_encode($data)], $multipart, ['map' => $this->getFileMapString($multipart)]);
         }
 
         return $this->postQuery($data);

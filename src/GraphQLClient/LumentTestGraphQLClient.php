@@ -2,23 +2,29 @@
 
 namespace GraphQLClient;
 
-use Illuminate\Foundation\Application;
-use Illuminate\Foundation\Testing\Concerns\MakesHttpRequests;
+use Laravel\Lumen\Testing\Concerns\MakesHttpRequests;
+use Laravel\Lumen\Application;
+
 
 /**
  * Class LumentTestGraphQLClient
  *
  * @package parku\AppBundle\Tests\GraphQL
  */
-class LaravelTestGraphQLClient extends Client
+class LumentTestGraphQLClient extends Client
 {
     use MakesHttpRequests;
 
+    /** @var Application */
     private $app;
 
-    private $response;
-
-    public function __construct(Application $app, $baseUrl)
+    /**
+     * WebTestGraphQLClient constructor.
+     *
+     * @param Application $app
+     * @param string      $baseUrl
+     */
+    public function __construct(Application $app, string $baseUrl)
     {
         parent::__construct($baseUrl);
 
@@ -27,7 +33,7 @@ class LaravelTestGraphQLClient extends Client
 
     protected function postQuery(array $data): array
     {
-        $this->response = $this->postJson($this->baseUrl, $data);
+        $this->post($this->getBaseUrl(), $data);
 
         if ($this->response->getStatusCode() >= 400) {
             throw new GraphQLException(sprintf(

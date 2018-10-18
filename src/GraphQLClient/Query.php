@@ -30,9 +30,12 @@ class Query extends Field
             return '';
         }
 
+        $variableKey = 0;
         $result = 'Header(';
         foreach($variables as $key => $variable) {
+            $result .= $variableKey > 0 ? ' ' : '';
             $result .= '$'. $key . ': ' . $variable->getType();
+            $variableKey++;
         }
 
         $result .= ')';
