@@ -34,7 +34,7 @@ class LaravelTestGraphQLClient extends Client
                 'Mutation failed with status code %d and error %s',
                 $this->response->getStatusCode(),
                 $this->response->getContent()
-            ));
+            ), $this->response->getStatusCode());
         }
 
         $responseBody = json_decode($this->response->getContent(), true);
@@ -42,7 +42,7 @@ class LaravelTestGraphQLClient extends Client
         if (isset($responseBody['errors'])) {
             throw new GraphQLException(sprintf(
                 'Mutation failed with error %s', json_encode($responseBody['errors'])
-            ));
+            ), $this->response->getStatusCode());
         }
 
         return $responseBody;
