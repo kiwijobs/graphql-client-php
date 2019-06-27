@@ -124,7 +124,8 @@ abstract class Client
         $fileString .= '{';
         foreach($multipart as $key => $mf)
         {
-            $fileString .= sprintf('%s', "\"$key\":[\"variables.$key\"]");
+            $comma = end($multipart) === $mf ? '': ',';
+            $fileString .= sprintf('%s', "\"$key\":[\"variables.$key\"]$comma");
         }
         $fileString .= '}';
 
