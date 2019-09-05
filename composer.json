@@ -1,5 +1,5 @@
 {
-  "name": "absolvent/graphql-client-php",
+  "name": "kiwijobs/graphql-client-php",
   "description": "A graphql client for php.",
   "type": "library",
   "keywords": [
